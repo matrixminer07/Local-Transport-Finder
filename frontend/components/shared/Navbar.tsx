@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MapPin, Menu, X, Plus, User } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { MapPin, Menu, X, Plus, User, LogIn, LogOut } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  const { data: session, status } = useSession()
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -16,6 +18,10 @@ export default function Navbar() {
     { href: '/contribute', label: 'Add Route' },
     { href: '/dashboard', label: 'Dashboard' },
   ]
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/' })
+  }
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
@@ -48,16 +54,42 @@ export default function Navbar() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/contribute"
-              className="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              Add Route
-            </Link>
-            <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <User className="w-5 h-5 text-gray-600" />
-            </button>
+            {status === 'loading' ? (
+              <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+            ) : session ? (
+              <>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <span className="text-sm text-gray-700">{session.user?.name}</span>
+                </div>
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth/signin"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Sign In
+                </Link>
+                <Link
+                  href="/contribute"
+                  className="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Route
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

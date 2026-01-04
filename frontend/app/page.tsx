@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, MapPin, Users, CheckCircle, TrendingUp } from 'lucide-react'
-import SearchBar from '@/components/search/SearchBarSimple'
+import SearchBar from '@/components/search/SearchBarOptimized'
 import { motion } from 'framer-motion'
 
 export default function HomePage() {
@@ -51,7 +51,7 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
             className="text-center mb-12"
           >
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -64,9 +64,9 @@ export default function HomePage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
             className="max-w-3xl mx-auto"
           >
             <SearchBar onSearch={(from, to) => {
