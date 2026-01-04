@@ -12,8 +12,8 @@ import api from '@/lib/api'
 function SearchContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const from = searchParams.get('from') || ''
-  const to = searchParams.get('to') || ''
+  const from = searchParams?.get('from') || ''
+  const to = searchParams?.get('to') || ''
 
   const [routes, setRoutes] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
