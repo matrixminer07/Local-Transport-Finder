@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import RouteCard, { RouteCardSkeleton } from '@/components/search/RouteCard'
-import SearchBar from '@/components/search/SearchBarSimple'
+import SearchBar from '@/components/search/SearchBarWithMaps'
 import { Filter, MapIcon, ListIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import RouteMap from '@/components/map/RouteMap'
