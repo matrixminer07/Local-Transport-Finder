@@ -150,6 +150,17 @@ function SearchContent() {
             </div>
           )}
         </div>
+                    Add This Route
+                  </button>
+                </motion.div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <RouteMap routes={routes} />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -159,14 +170,11 @@ export default function SearchPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gray-50 py-8 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="animate-pulse">
-            <div className="h-32 bg-gray-200 rounded-xl mb-6"></div>
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="space-y-4">
-              <div className="h-32 bg-gray-200 rounded-xl"></div>
-              <div className="h-32 bg-gray-200 rounded-xl"></div>
-            </div>
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <RouteCardSkeleton key={i} />
+            ))}
           </div>
         </div>
       </div>
