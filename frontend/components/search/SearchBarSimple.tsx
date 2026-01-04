@@ -1,5 +1,6 @@
 'use client'
 
+// Simple search bar - WORKING VERSION
 import { useState } from 'react'
 import { Search, MapPin, Loader2 } from 'lucide-react'
 
