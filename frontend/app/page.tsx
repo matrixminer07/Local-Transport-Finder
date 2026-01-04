@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, MapPin, Users, CheckCircle, TrendingUp } from 'lucide-react'
-import SearchBar from '@/components/search/SearchBar'
+import SearchBar from '@/components/search/SearchBarSimple'
 import { motion } from 'framer-motion'
 
 export default function HomePage() {

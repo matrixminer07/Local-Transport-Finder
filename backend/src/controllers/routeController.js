@@ -1,36 +1,86 @@
 const Route = require('../models/Route')
 const Edit = require('../models/Edit')
+const sampleRoutes = require('../data/sampleRoutes')
 
 // Search routes
 exports.searchRoutes = async (req, res) => {
   try {
     const { from, to, transportType } = req.query
 
-    const query = {}
+    // Try to get from database first
+    try {
+      const query = {}
 
-    if (from) {
-      query['from.name'] = new RegExp(from, 'i')
+      if (from) {
+        query['from.name'] = new RegExp(from, 'i')
+      }
+
+      if (to) {
+        query['to.name'] = new RegExp(to, 'i')
+      }
+
+      if (transportType && transportType !== 'all') {
+        query.transportType = transportType
+      }
+
+      // Only show verified or pending routes
+      query['metadata.status'] = { $in: ['verified', 'pending'] }
+
+      const routes = await Route.find(query)
+        .sort({ 'metadata.verifiedVotes': -1, 'metadata.upvotes': -1 })
+        .limit(50)
+
+      res.json(routes)
+    } catch (dbError) {
+      // Fallback to sample data if database is not connected
+      console.log('Database not connected, using sample data:', dbError.message)
+      
+      let filteredRoutes = sampleRoutes
+      
+      if (from) {
+        filteredRoutes = filteredRoutes.filter(route => 
+          route.from.name.toLowerCase().includes(from.toLowerCase())
+        )
+      }
+      
+      if (to) {
+        filteredRoutes = filteredRoutes.filter(route => 
+          route.to.name.toLowerCase().includes(to.toLowerCase())
+        )
+      }
+      
+      if (transportType && transportType !== 'all') {
+        filteredRoutes = filteredRoutes.filter(route => 
+          route.transportType === transportType
+        )
+      }
+      
+      res.json(filteredRoutes)
     }
-
-    if (to) {
-      query['to.name'] = new RegExp(to, 'i')
-    }
-
-    if (transportType && transportType !== 'all') {
-      query.transportType = transportType
-    }
-
-    // Only show verified or pending routes
-    query['metadata.status'] = { $in: ['verified', 'pending'] }
-
-    const routes = await Route.find(query)
-      .sort({ 'metadata.verifiedVotes': -1, 'metadata.upvotes': -1 })
-      .limit(50)
-
-    res.json(routes)
   } catch (error) {
     console.error('Search error:', error)
     res.status(500).json({ message: 'Error searching routes', error: error.message })
+  }
+}
+
+// Get popular routes
+exports.getPopularRoutes = async (req, res) => {
+  try {
+    // Try to get from database first
+    try {
+      const routes = await Route.find({ 'metadata.status': 'verified' })
+        .sort({ 'metadata.verifiedVotes': -1, 'metadata.upvotes': -1 })
+        .limit(10)
+
+      res.json(routes)
+    } catch (dbError) {
+      // Fallback to sample data
+      console.log('Database not connected, using sample popular routes:', dbError.message)
+      res.json(sampleRoutes.slice(0, 3))
+    }
+  } catch (error) {
+    console.error('Popular routes error:', error)
+    res.status(500).json({ message: 'Error fetching popular routes', error: error.message })
   }
 }
 
