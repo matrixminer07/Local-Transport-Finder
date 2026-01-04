@@ -13,7 +13,7 @@ export default function ContributePage() {
   const [stops, setStops] = useState<Array<{ name: string }>>([])
   const [stopInput, setStopInput] = useState('')
 
-  const editId = searchParams.get('edit')
+  const editId = searchParams?.get('edit')
 
   const [formData, setFormData] = useState({
     from: '',
