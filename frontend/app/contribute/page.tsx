@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { MapPin, Clock, IndianRupee, Plus, X, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { toast } from 'sonner'
 
 export default function ContributePage() {
   const router = useRouter()
@@ -69,7 +68,7 @@ export default function ContributePage() {
       }
 
       console.log('Submitting route:', routeData)
-      toast.success('Route submitted successfully! It will be reviewed by our team.')
+      console.log('Route submitted successfully! It will be reviewed by our team.')
       
       // Reset form
       setFormData({
@@ -91,7 +90,7 @@ export default function ContributePage() {
       
     } catch (error) {
       console.error('Error submitting route:', error)
-      toast.error('Failed to submit route. Please try again.')
+      console.error('Failed to submit route. Please try again.')
     } finally {
       setLoading(false)
     }
