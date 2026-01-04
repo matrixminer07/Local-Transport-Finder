@@ -1,6 +1,7 @@
 require('dotenv').config()
 // Local Transport Finder Backend Server
 // Fixed for production deployment
+const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const morgan = require('morgan')
