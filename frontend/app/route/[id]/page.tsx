@@ -9,7 +9,7 @@ import api from '@/lib/api'
 import { toast } from 'sonner'
 
 export default function RouteDetailPage() {
-  const params = useParams()
+  const params = useParams() as { id: string }
   const router = useRouter()
   const [route, setRoute] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -295,7 +295,7 @@ export default function RouteDetailPage() {
                 Navigate
               </button>
               <button
-                onClick={() => router.push(`/contribute?edit=${params.id || ''}`)}
+                onClick={() => router.push(`/contribute?edit=${params.id}`)}
                 className="flex-1 sm:flex-initial bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
               >
                 <Edit className="w-4 h-4" />
