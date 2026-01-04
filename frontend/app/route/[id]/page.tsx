@@ -1,5 +1,6 @@
 'use client'
 
+// Route detail page - FIXED TypeScript issues
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { MapPin, Clock, IndianRupee, ThumbsUp, ThumbsDown, AlertCircle, Edit, Navigation, Users, Info } from 'lucide-react'
